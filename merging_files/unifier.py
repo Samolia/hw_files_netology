@@ -1,4 +1,5 @@
 import operator
+import os
 
 def get_info(file_names):
     '''
@@ -15,3 +16,21 @@ def get_info(file_names):
     my_data = [{item[0]: my_data[item[0]]} for item in sorted_key_list]
     return my_data
 
+
+def writing_to_file(my_data, my_file):
+    '''
+    Функция структурированно записывает в файл информацию (если файла с таким именем нет, то создает его)
+    :param my_data: Словарь с информацией
+    :return: Абсолютный путь к записанному файлу
+    '''
+    with open(my_file, 'w', encoding='utf-8') as f:
+        for file in my_data:
+            for key, value in file.items():
+                f.write(key + '\n')
+                f.write(str(len(value)) + '\n')
+                for elem in value:
+                    f.write(elem.strip() + '\n')
+    file_path = os.path.join(os.getcwd(), my_file)
+    return file_path
+
+print(writing_to_file(get_info(['1.txt', '2.txt', '3.txt']), 'result.txt'))
